@@ -1,0 +1,56 @@
+#!/usr/bin/python
+
+# This is from https://lukasa.co.uk/2013/04/Writing_A_Persona_Identity_Provider/
+
+import subprocess
+import sys
+import json
+
+def keyfield_as_int(field_name, data):
+    start = data.index(field_name + ':') + 1
+    index = start
+
+    while (True):
+        index += 1
+
+        if not data[index].startswith(' '):
+            break
+
+    result = output[start:index]
+    result = ''.join([x.strip() for x in result]).replace(':', '')
+
+    return int(result, 16)
+
+def get_public_exponent(data):
+    for element in data:
+        if element.startswith('publicExponent'):
+            return element.split(' ')[1]
+
+keyfile = "/vagrant/certs/private-key.pem"
+proc = subprocess.Popen(['openssl', 'rsa', '-in', keyfile, '-text', '-noout'],
+                        stdout=subprocess.PIPE)
+output = proc.communicate()[0].split('\n')
+
+modulus = keyfield_as_int('modulus', output)
+privateExponent = keyfield_as_int('privateExponent', output)
+publicExponent = get_public_exponent(output)
+
+print '\n'.join(['Modulus (n):', str(modulus),
+                 'Public Exponent (e):', str(publicExponent),
+                 'Private Exponent (d):', str(privateExponent)])
+
+doc = """{{
+  "public-key": {{
+    "algorithm": "RS",
+    "n": "{n}",
+    "e": "{e}"
+  }},
+  "authentication": "/persona/authentication",
+  "provisioning": "/persona/provisioning"
+}}"""
+
+with open("/vagrant/support_document", "w") as f:
+  f.write(doc.format(e=publicExponent, n=modulus))
+
+with open("/vagrant/key.json", "w") as f:
+  json.dump({"n": modulus, "e": publicExponent, "d": privateExponent}, f)

@@ -1,0 +1,40 @@
+<html>
+<head>
+<script src="https://login.persona.org/provisioning_api.js"></script>
+<script>
+var username = "{{ username }}";
+var domain = "{{ DOMAIN }}";
+var email;
+
+if (username) {
+  email = username + "@" + domain;
+}
+
+navigator.id.beginProvisioning(function(plausibleEmail, certDuration) {
+  if (plausibleEmail && email && plausibleEmail === email) { 
+    navigator.id.genKeyPair(function(publicKey) {
+      var success = function(data) {
+        navigator.id.registerCertificate(data.certificate);
+      };
+
+      var error = function(xhr, type) {
+        navigator.id.raiseProvisioningFailure();
+      };
+
+      $.ajax({
+        url: "signcert",
+        type: "POST",
+        data: JSON.stringify({email: email, publicKey: publicKey, certDuration: certDuration}),,,,
+        dataType: "json",
+        success: success,
+        error: error,
+        contentType: "application/json"
+      });
+    });
+  } else {
+    navigator.id.raiseProvisioningFailure();
+  }
+});
+</script>
+</head>
+</html>

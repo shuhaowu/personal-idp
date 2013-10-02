@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+
+	<meta charset="utf-8">
+  <title>Personal IDP at {{ DOMAIN }}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="static/app.css">
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+  <script src="https://login.persona.org/authentication_api.js"></script>
+  <script>
+    var username = "{{ username }}";
+    var domain = "{{ DOMAIN }}";
+    var email = "";
+
+    if (username) {
+      email = username + "@" + domain;
+    }
+
+    navigator.id.beginAuthentication(function(plausibleEmail) {
+      if (plausibleEmail && email && plausibleEmail === email)
+        navigator.id.completeAuthentication();
+    });
+
+  </script>
+</head>
+<body>
+
+<div class="container">
+  <div class="sixteen columns">
+    <h3 class="title">Personal IDP at {{ DOMAIN }}</h3>
+  </div>
+  <div class="eight columns">
+    <div class="first panel">
+      <h4>Something you know</h4>
+      <form action="">
+        <input type="text" id="username" placeholder="Username" />
+        <input type="password" id="password" placeholder="Password" />
+        <button type="button" id="cancel">Cancel</button>
+        <button type="button" id="authenticate">Authenticate</button>
+      </form>
+    </div>
+  </div>
+  <div class="eight columns text-center">
+    <div class="panel">
+      <h4>Something you have</h4>
+      <p class="loading"><img src="static/loading.gif" /></p>
+      <p>Waiting for authentication...</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Powered by <a href="https://github.com/shuhaowu/personal-idp" target="_blank">Personal IDP</a> | Created by <a href="https://shuhaowu.com" target="_blank">Shuhao Wu</a>
+</footer>
+
+<script src="static/zepto.min.js"></script>
+<script src="static/authentication.js"></script>
+</body>
+</html>

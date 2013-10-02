@@ -1,0 +1,11 @@
+*.pyc
+
+certs/certificate.pem
+certs/certificate.key
+certs/private-key.pem
+certs/public-key.pem
+support_document
+key.json
+users.json
+
+.vagrant/
