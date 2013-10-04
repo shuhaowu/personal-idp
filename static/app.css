@@ -53,7 +53,6 @@ footer {
   text-align: center;
   font-size: 12px;
   color: #888;
-  margin-top: 4em;
   margin-bottom: 0.8em;
 }
 
@@ -94,6 +93,7 @@ input.invalid {
   }
   
   .container {
-    margin-top: -25px;
+    margin-top: 1em;
   }
+  
 }
