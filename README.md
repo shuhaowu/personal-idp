@@ -5,7 +5,7 @@ Whoa. Your personal, private [Mozilla Persona IDP](https://developer.mozilla.org
 
 I know. It's pretty {profanity} awesome.
 
-Screenshot: ![YAY](https://raw.github.com/shuhaowu/persona-idp/master/screenshot.png) 
+Screenshot: ![YAY](https://raw.github.com/shuhaowu/personal-idp/master/screenshot.png) 
 
 Wat
 ===
