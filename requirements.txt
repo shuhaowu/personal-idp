@@ -13,3 +13,6 @@ itsdangerous==0.23
 pycparser==2.10
 requests==2.0.0
 wsgiref==0.1.2
+qrcode==4.0.1
+onetimepass==0.2.2
+six==1.4.1

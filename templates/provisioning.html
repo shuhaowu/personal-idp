@@ -1,6 +1,11 @@
 <html>
 <head>
+<script src="static/zepto.min.js"></script>
+{% if DEBUG %}
+<script src="http://persona.{{ DOMAIN }}/provisioning_api.js"></script>
+{% else %}
 <script src="https://login.persona.org/provisioning_api.js"></script>
+{% endif %}
 <script>
 var username = "{{ username }}";
 var domain = "{{ DOMAIN }}";
@@ -11,7 +16,7 @@ if (username) {
 }
 
 navigator.id.beginProvisioning(function(plausibleEmail, certDuration) {
-  if (plausibleEmail && email && plausibleEmail === email) { 
+  if (plausibleEmail && email && plausibleEmail === email) {
     navigator.id.genKeyPair(function(publicKey) {
       var success = function(data) {
         navigator.id.registerCertificate(data.certificate);
@@ -24,7 +29,7 @@ navigator.id.beginProvisioning(function(plausibleEmail, certDuration) {
       $.ajax({
         url: "signcert",
         type: "POST",
-        data: JSON.stringify({email: email, publicKey: publicKey, certDuration: certDuration}),,,,
+        data: JSON.stringify({email: email, publicKey: publicKey, certDuration: certDuration}),
         dataType: "json",
         success: success,
         error: error,

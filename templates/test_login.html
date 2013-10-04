@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>Test Login Page</title>
+</head>
+<body>
+  <button id="signin">Sign in</button>
+  <button id="signout">Sign out</button>
+
+  <script src="http://persona.shuhaowu.com/include.js"></script>
+  <script src="static/zepto.min.js"></script>
+  <script>
+    var signinLink = document.getElementById('signin');
+    if (signinLink) {
+      signinLink.onclick = function() { navigator.id.request(); };
+    }
+
+    var signoutLink = document.getElementById('signout');
+    if (signoutLink) {
+      signoutLink.onclick = function() { navigator.id.logout(); };
+    }
+
+    var currentUser = '{{ username }}';
+    if (currentUser)
+      currentUser = currentUser + "@{{ DOMAIN }}";
+
+    navigator.id.watch({
+      loggedInUser: currentUser,
+      onlogin: function(assertion) {
+        console.log(assertion);
+        alert("logged in!")
+      },
+      onlogout: function() {
+        $.ajax({type: "GET", url: "logout"});
+        alert("logout!");
+      }
+    });
+  </script>
+</body>
+</html>

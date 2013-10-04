@@ -14,7 +14,12 @@
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
+  {% if DEBUG %}
+  <script src="http://persona.{{ DOMAIN }}/authentication_api.js"></script>
+  {% else %}
   <script src="https://login.persona.org/authentication_api.js"></script>
+  {% endif %}
+
   <script>
     var username = "{{ username }}";
     var domain = "{{ DOMAIN }}";
@@ -37,22 +42,16 @@
   <div class="sixteen columns">
     <h3 class="title">Personal IDP at {{ DOMAIN }}</h3>
   </div>
-  <div class="eight columns">
+  <div class="sixteen columns">
     <div class="first panel">
-      <h4>Something you know</h4>
-      <form action="">
+      <h4>Verifying Your Identity</h4>
+      <form id="loginform">
         <input type="text" id="username" placeholder="Username" />
         <input type="password" id="password" placeholder="Password" />
+        <input type="text" id="code" placeholder="6 digit code from your device" />
         <button type="button" id="cancel">Cancel</button>
-        <button type="button" id="authenticate">Authenticate</button>
+        <button type="submit" id="authenticate">Authenticate</button>
       </form>
-    </div>
-  </div>
-  <div class="eight columns text-center">
-    <div class="panel">
-      <h4>Something you have</h4>
-      <p class="loading"><img src="static/loading.gif" /></p>
-      <p>Waiting for authentication...</p>
     </div>
   </div>
 </div>
